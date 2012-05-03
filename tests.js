@@ -26,7 +26,7 @@ $(document).ready(function () {
   });
 
 
-  test("[20] fibonacci com memoizer", function () {
+  test("[20] memoizer + fibonacci", function () {
 
     var contaExecucoes = 0;
 
@@ -56,7 +56,7 @@ $(document).ready(function () {
     /*
      * fibonacci COM MEMÓRIA
      * */
-    var fibonacci = function () {
+    fibonacci = function () {
       var memo = [0, 1];
       var fib = function (n) {
         var result = memo[n];
@@ -93,7 +93,7 @@ $(document).ready(function () {
     };
 
 
-    var fibonacci = memoizer([0, 1], function (shell, n) {
+    fibonacci = memoizer([0, 1], function (shell, n) {
       return shell(n - 1) + shell(n - 2);
     });
 
@@ -121,7 +121,7 @@ $(document).ready(function () {
 
   });
 
-  test("[30] numeroPrimo do Julio", function () {
+  test("[30] numeroPrimo", function () {
     function buscaTodosPrimosAte (numeroMaximo) {
       var range = _.range(1, numeroMaximo + 1);
       var primos = [];
