@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-  test("[01] modulo seguro", function () {
+  test("[10] modulo seguro", function () {
     var serial_maker = function () {
       var seq = 0;
       return {
@@ -26,7 +26,7 @@ $(document).ready(function () {
   });
 
 
-  test("[02] fibonacci com memoizer", function () {
+  test("[20] fibonacci com memoizer", function () {
 
     var contaExecucoes = 0;
 
@@ -101,17 +101,54 @@ $(document).ready(function () {
 
 
     /*
-    * memoizer aplicado ao fatorial
-    * */
+     * memoizer aplicado ao fatorial
+     * */
     var fatorial = memoizer([1, 1], function (shell, n) {
       return n * shell(n - 1);
     });
 
     equal(fatorial(2), 2);
     equal(fatorial(3), 6);
-    equal(fatorial(4), 24)
+    equal(fatorial(4), 24);
 
-    ok(true, fatorial(9))
+
+    /*
+     * memoizer aplicado a numeros primos
+     * */
+//    var numeroPrimo = memoizer([1, 2, 3, 5, 7], function (shell, n) {
+//      return n % shell(n - 1) !== 0;
+//    });
+
+  });
+
+  test("[30] numeroPrimo do Julio", function () {
+    function buscaTodosPrimosAte (numeroMaximo) {
+      var range = _.range(1, numeroMaximo + 1);
+      var primos = [];
+      _.each(range, function cadaPrimo (n) {
+        if (numeroPrimo(n, primos)) {
+          primos.push(n);
+        }
+      });
+      return primos.join(",");
+    }
+
+    function numeroPrimo (num, primos) {
+      var i = 0;
+
+      for (i = 1; i < primos.length / 2; i += 1) {
+        var p = primos[i];
+        if(num % p === 0){
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    equal(buscaTodosPrimosAte(17), "1,2,3,5,7,11,13,17");
+
+    //ok(true, buscaTodosPrimosAte(111111));
   });
 });
 
