@@ -1,5 +1,4 @@
-$(document).ready(function () {
-
+$().ready(function () {
   test("[10] modulo seguro", function () {
     var serial_maker = function () {
       var seq = 0;
@@ -66,7 +65,7 @@ $(document).ready(function () {
           memo[n] = result;
         }
         return result;
-      }
+      };
       return fib;
     }();
 
@@ -110,45 +109,50 @@ $(document).ready(function () {
     equal(fatorial(2), 2);
     equal(fatorial(3), 6);
     equal(fatorial(4), 24);
-
-
-    /*
-     * memoizer aplicado a numeros primos
-     * */
-//    var numeroPrimo = memoizer([1, 2, 3, 5, 7], function (shell, n) {
-//      return n % shell(n - 1) !== 0;
-//    });
-
   });
 
-  test("[30] numeroPrimo", function () {
-    function buscaTodosPrimosAte (numeroMaximo) {
-      var range = _.range(1, numeroMaximo + 1);
-      var primos = [];
-      _.each(range, function cadaPrimo (n) {
-        if (numeroPrimo(n, primos)) {
-          primos.push(n);
+  test("[30] IoC no JS", function () {
+    // define a module 'A'
+    registerIoc('a', function () {
+      return {
+        print: function () {
+          return '[A]';
         }
-      });
-      return primos.join(",");
-    }
+      };
+    });
 
-    function numeroPrimo (num, primos) {
-      var i = 0;
-
-      for (i = 1; i < primos.length / 2; i += 1) {
-        var p = primos[i];
-        if(num % p === 0){
-          return false;
+    // define a module 'B' that depends on module 'A'
+    registerIoc('b', ['a'], function (a) {
+      return {
+        print: function () {
+          var res = "(";
+          res += a.print();
+          return res + 'B)';
         }
-      }
+      };
+    });
 
-      return true;
-    }
+    // define a module 'C' that depends on module 'A' and 'B'
+    registerIoc('c', ['a', 'b'], function (a, b) {
+      return {
+        print: function () {
+          var res = "{";
+          res += a.print();
+          res += b.print();
+          return res + 'C}';
+        }
+      };
+    });
 
-    equal(buscaTodosPrimosAte(17), "1,2,3,5,7,11,13,17");
 
-    //ok(true, buscaTodosPrimosAte(111111));
+    var a = resolve('a');
+    equal(a.print(), "[A]");
+
+    var b = resolve('b');
+    equal(b.print(), "([A]B)");
+
+    var c = resolve('c');
+    equal(c.print(), "{[A]([A]B)C}");
   });
 });
 

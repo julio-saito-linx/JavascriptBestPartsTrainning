@@ -9257,8 +9257,8 @@ window.jQuery = window.$ = jQuery;
 // file names, and jQuery is normally delivered in a lowercase file name.
 // Do this after creating the global so that if an AMD module wants to call
 // noConflict to hide this version of jQuery, it will work.
-if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
-	define( "jquery", [], function () { return jQuery; } );
+if ( typeof registerIoc === "function" && registerIoc.amd && registerIoc.amd.jQuery ) {
+	registerIoc( "jquery", [], function () { return jQuery; } );
 }
 
 
